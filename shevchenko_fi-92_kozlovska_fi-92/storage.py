@@ -1,21 +1,4 @@
-# DB structure
-
 from sortedcontainers import SortedDict
-
-# Storager
-class storager:
-    def __init__(self):
-        self.table = {}
-
-    def create_db(self, table_name, columns):
-        if columns:
-            self[table_name] = db(table_name, columns)
-            return f"Table {table_name} has been successfully created!"
-        else:
-            return f"Table {table_name} columns are empty!"
-
-if __name__ == "__main__":
-    storage = storager()
 
 # Indexing for columns
 class indexColumns:
@@ -35,3 +18,18 @@ class db:
             self.columns[column_name] = i
             if index_flag == True:
                 self.index[i] = indexColumns()
+
+# Storager
+class storager:
+    def __init__(self):
+        self.table = {}
+
+    def create_db(self, table_name, columns):
+        if columns:
+            self.table[table_name] = db(table_name, columns)
+            print(f"Table {table_name} has been successfully created!")
+        else:
+            print(f"Table {table_name} columns are empty!")
+
+if __name__ == "__main__":
+    storage = storager()
