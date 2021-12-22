@@ -9,7 +9,7 @@ storage = db.storager()
 # Parsing words -- DONE!
 # Exit function -- DONE!
 # Create function -- DONE!
-# Insert function
+# Insert function -- create insert function in db class and indexColumns class
 # Select function
 # Delete finction
 
@@ -69,13 +69,13 @@ def parse(self, words):
         else:
             print('Invalid table name!')
     elif command_type == 'INSERT':
+        values = []
+        i = 2
         if command[1].upper() not in Parser.COMMANDS and command[1].upper() not in Parser.SPECIAL_WORDS:
             table_name = command[1]
-            i = 2
         elif command[2].upper() not in Parser.COMMANDS and command[2].upper() not in Parser.SPECIAL_WORDS:
             table_name = command[2]
-            i = 3
-        values = []
+            i += 1
 
         # Deleting excessive symbols
         for indx, word in enumerate(command):
@@ -93,9 +93,11 @@ def parse(self, words):
             #print(exch)
             #print(command[indx])
 
-
-        # insert(command)
-        print('INSERT command')
+        while i < len(command):
+            values.append(command[i])
+            i += 1
+        print(values)
+        command_exec = storage.insert_db(table_name, values)
     elif command_type == 'SELECT':
         # select(command)
         print('SELECT command')
