@@ -24,10 +24,12 @@ def parse(self, words):
     # Find command type and arguments or print command error
     if command_type not in Parser.COMMANDS:
         print(f"Command '{command_type}' not found!")
+
     elif command_type == 'EXIT':    
         print('Stopping program...')
         Parser.exit_command = True
         sys.exit()  
+
     elif command_type == 'CREATE':
         table_name = command[1]
         if re.match(Parser.NAMES, table_name) and table_name.upper() not in Parser.COMMANDS and table_name.upper() not in Parser.SPECIAL_WORDS:
@@ -68,9 +70,11 @@ def parse(self, words):
             command_exec = storage.create_db(table_name, columns)
         else:
             print('Invalid table name!')
+
     elif command_type == 'INSERT':
         values = []
         i = 2
+        # Detecting table_name
         if command[1].upper() not in Parser.COMMANDS and command[1].upper() not in Parser.SPECIAL_WORDS:
             table_name = command[1]
         elif command[2].upper() not in Parser.COMMANDS and command[2].upper() not in Parser.SPECIAL_WORDS:
@@ -98,6 +102,7 @@ def parse(self, words):
             i += 1
         print(values)
         command_exec = storage.insert_db(table_name, values)
+
     elif command_type == 'SELECT':
         # select(command)
         print('SELECT command')
@@ -119,6 +124,7 @@ class Parser:
         exit_command = False
         print('Use "EXIT" command to stop this program')
 
+        # Command input
         while not exit_command:
             while input_accept:
                 input_command += ' ' + input('>>').strip()
