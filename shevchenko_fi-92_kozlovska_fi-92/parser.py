@@ -19,6 +19,7 @@ def parse(self, words):
     print(command)
     command_type = command[0]
     command_type = command_type.upper()
+    symbols = ['(', ')', ',', '.', ';']
 
     # Find command type and arguments or print command error
     if command_type not in Parser.COMMANDS:
@@ -29,25 +30,25 @@ def parse(self, words):
         sys.exit()  
     elif command_type == 'CREATE':
         table_name = command[1]
-        if re.match(Parser.NAMES, table_name) and table_name not in Parser.COMMANDS and table_name not in Parser.SPECIAL_WORDS:
+        if re.match(Parser.NAMES, table_name) and table_name.upper() not in Parser.COMMANDS and table_name.upper() not in Parser.SPECIAL_WORDS:
             columns = []
-            symbols = ['(', ')', ',', '.', ';']
             i = 2
 
             # Deleting excessive symbols
             for indx, word in enumerate(command):
-                first = word[0]
-                last = word[-1]
-                #print(word)
+                exch = word
+                first = exch[0]
+                last = exch[-1]
+                #print(exch)
                 #print(first, last)
                 if first in symbols:
-                    word_ch = word[1:]
-                    command[indx] = word_ch
-                    #print(word_ch)
+                    exch = exch[1:]
+                    last = exch[-1]
                 if last in symbols:
-                    word_ch = word[:-1]
-                    command[indx] = word_ch
-                    #print(word_ch)
+                    exch = exch[:-1]
+                command[indx] = exch
+                #print(exch)
+                #print(command[indx])
 
             # Searching indexing columns and mark them to indexed_flag = True
             while i < len(command):
@@ -68,6 +69,31 @@ def parse(self, words):
         else:
             print('Invalid table name!')
     elif command_type == 'INSERT':
+        if command[1].upper() not in Parser.COMMANDS and command[1].upper() not in Parser.SPECIAL_WORDS:
+            table_name = command[1]
+            i = 2
+        elif command[2].upper() not in Parser.COMMANDS and command[2].upper() not in Parser.SPECIAL_WORDS:
+            table_name = command[2]
+            i = 3
+        values = []
+
+        # Deleting excessive symbols
+        for indx, word in enumerate(command):
+            exch = word
+            first = exch[0]
+            last = exch[-1]
+            #print(exch)
+            #print(first, last)
+            if first in symbols:
+                exch = exch[1:]
+                last = exch[-1]
+            if last in symbols:
+                exch = exch[:-1]
+            command[indx] = exch
+            #print(exch)
+            #print(command[indx])
+
+
         # insert(command)
         print('INSERT command')
     elif command_type == 'SELECT':
