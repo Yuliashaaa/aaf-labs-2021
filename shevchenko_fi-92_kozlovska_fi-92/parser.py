@@ -9,8 +9,8 @@ storage = db.storager()
 # Parsing words -- DONE!
 # Exit function -- DONE!
 # Create function -- DONE!
-# Insert function -- create insert function in db class and indexColumns class
-# Select function
+# Insert function -- DONE!
+# Select function -- in process
 # Delete finction
 
 # Function to parse words into commands and find command type if it is possible
