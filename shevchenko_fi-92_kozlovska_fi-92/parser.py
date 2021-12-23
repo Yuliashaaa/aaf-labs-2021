@@ -109,12 +109,34 @@ def parse(self, words):
         order = []
         i = 1
         # Detecting selection columns
-        while i < len(command) and command[i].upper != 'FROM':
-            columns.append(command[i])
-            i += 1
-        for i in range(1, len(command)):
+        from_pos = 0
+        where_pos = 0
+        order_pos = 0
+        while i < len(command):
             if command[i].upper() == 'FROM':
-                table_name = command[i + 1]
+                from_pos = i
+            if command[i].upper() == 'WHERE':
+                where_pos = i
+            if command[i].upper() == 'ORDER_BY':
+                order_pos = i
+            i += 1
+
+        for i in range(1, from_pos):
+            columns.append(command[i])
+        table_name = command[from_pos + 1]
+        if where_pos != 0 and order_pos != 0:
+            for i in range(where_pos + 1, order_pos):
+                condition.append(command[i])
+        elif where_pos != 0 and order_pos == 0:
+            for i in range(where_pos + 1, len(command)):
+                condition.append(command[i])
+        if order_pos != 0:
+            for i in range(order_pos + 1, len(command)):
+                order.append(command[i])
+        print(f"t_n   {table_name}")
+        print(f"columns     {columns}")
+        print(f"condition   {condition}")
+        print(f"order   {order}")
         command_exec = storage.select_db(table_name, columns, condition, order)
 
     elif command_type == 'DELETE':
