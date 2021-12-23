@@ -30,13 +30,16 @@ class db:
         if len(values) != len(self.columns):
             print(f"Invalid amount of values to insert into {table_name}!")
         else:
-            print(f"len val {len(values)}   len cols {len(self.columns)}")
             row = self.row_id
-            print(f"row  {row}")
-            for column_name in self.index:
-                print(f"cols   {column_name}")
-                row_i = self.columns[column_name]
-                self.index[column_name].insert(values[row_i], row)
+            #print(f"self.columns  {self.columns}")
+            for indexed_columns in self.index:
+                #print(f"index[indexed-col]   {self.index[indexed_columns]}")
+                row_i = list(self.columns.keys())[list(self.columns.values()).index(indexed_columns)]
+                col_i = int(self.columns[row_i])
+                #print(f"row_i   {row_i}")
+                #print(f"col_i   {col_i}")
+                #print(f"index[row_i]   {self.index[col_i]}")
+                self.index[col_i].insert(values[col_i], row)
             self.table[row] = values
             self.row_id += 1
             rows_insert.append(values)
