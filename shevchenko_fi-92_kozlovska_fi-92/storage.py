@@ -69,6 +69,19 @@ class storager:
                 rows_insert = self.table[table_name].insert(table_name, values)
                 print(f"{len(rows_insert)} row(s) has been inserted into {table_name}!")
 
+    def select_db(self, table_name, columns, condition, order):
+        #print(f"Select {columns} from {table_name}!")
+        # Check table existance in database
+        if table_name not in self.table:
+            print(f"Table {table_name} does not exist!")
+        else:
+            for column in columns:
+                # Check columns existance in table
+                if column not in self.table[table_name].columns:
+                    print(f"Invalid values to select from database!")
+                else:
+
+
 if __name__ == "__main__":
     storage = storager()
     index = indexColumns()
