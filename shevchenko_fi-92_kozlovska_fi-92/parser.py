@@ -104,8 +104,19 @@ def parse(self, words):
         command_exec = storage.insert_db(table_name, values)
 
     elif command_type == 'SELECT':
-        # select(command)
-        print('SELECT command')
+        columns = []
+        condition = []
+        order = []
+        i = 1
+        # Detecting selection columns
+        while i < len(command) and command[i].upper != 'FROM':
+            columns.append(command[i])
+            i += 1
+        for i in range(1, len(command)):
+            if command[i].upper() == 'FROM':
+                table_name = command[i + 1]
+        command_exec = storage.select_db(table_name, columns, condition, order)
+
     elif command_type == 'DELETE':
         # delete(command)
         print('DELETE command')
