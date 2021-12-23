@@ -10,7 +10,7 @@ storage = db.storager()
 # Exit function -- DONE!
 # Create function -- DONE!
 # Insert function -- DONE!
-# Select function -- in process
+# Select function -- create select in storager and make select output
 # Delete finction
 
 # Function to parse words into commands and find command type if it is possible
