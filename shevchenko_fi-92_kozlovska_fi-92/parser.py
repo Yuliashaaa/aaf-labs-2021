@@ -10,8 +10,8 @@ storage = db.storager()
 # Exit function -- DONE!
 # Create function -- DONE!
 # Insert function -- DONE!
-# Select function -- create select in storager and make select output
-# Delete finction
+# Select function -- edit select in storager with conditions
+# Delete finction -- create delete function in storage
 
 # Function to parse words into commands and find command type if it is possible
 def parse(self, words):
@@ -112,6 +112,23 @@ def parse(self, words):
         from_pos = 0
         where_pos = 0
         order_pos = 0
+
+        # Deleting excessive symbols
+        for indx, word in enumerate(command):
+            exch = word
+            first = exch[0]
+            last = exch[-1]
+            #print(exch)
+            #print(first, last)
+            if first in symbols:
+                exch = exch[1:]
+                last = exch[-1]
+            if last in symbols:
+                exch = exch[:-1]
+            command[indx] = exch
+            #print(exch)
+            #print(command[indx])
+
         while i < len(command):
             if command[i].upper() == 'FROM':
                 from_pos = i
@@ -140,8 +157,39 @@ def parse(self, words):
         command_exec = storage.select_db(table_name, columns, condition, order)
 
     elif command_type == 'DELETE':
-        # delete(command)
-        print('DELETE command')
+        condition = []
+        where_pos = 0
+        i = 2
+
+        for indx, word in enumerate(command):
+            exch = word
+            first = exch[0]
+            last = exch[-1]
+            #print(exch)
+            #print(first, last)
+            if first in symbols:
+                exch = exch[1:]
+                last = exch[-1]
+            if last in symbols:
+                exch = exch[:-1]
+            command[indx] = exch
+            #print(exch)
+            #print(command[indx])
+        
+        # Detecting table_name
+        if command[1].upper() not in Parser.COMMANDS and command[1].upper() not in Parser.SPECIAL_WORDS:
+            table_name = command[1]
+        elif command[2].upper() not in Parser.COMMANDS and command[2].upper() not in Parser.SPECIAL_WORDS:
+            table_name = command[2]
+            i += 1
+        while i < len(command):
+            if command[i].upper() == 'WHERE':
+                where_pos = i
+        if where_pos != 0:
+            for i in range(where_pos + 1, len(command)):
+                condition.append(command[i])
+        command_exec = storage.delete_db(table_name, condition)
+        
     return command_exec
 
 
