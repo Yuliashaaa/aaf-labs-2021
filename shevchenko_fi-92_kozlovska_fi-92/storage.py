@@ -59,6 +59,10 @@ class db:
         table = GithubFlavoredMarkdownTable(table_data)
         print(table.table)
 
+    def delete(self, table_name, condition):
+        if not condition:
+            rows_delete = []
+
 # Storager
 class storager:
     def __init__(self):
