@@ -24,6 +24,7 @@ def parse(self, words):
     # Find command type and arguments or print command error
     if command_type not in Parser.COMMANDS:
         print(f"Command '{command_type}' not found!")
+        command_exec = 0
 
     elif command_type == 'EXIT':    
         print('Stopping program...')
