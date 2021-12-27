@@ -122,6 +122,11 @@ class db:
     def delete(self, table_name, condition):
         if not condition:
             rows_delete = []
+            for i in range (0, self.row_id):
+                    rows_delete.append(self.table.pop(i))
+        self.row_id -= len(rows_delete)
+        return rows_delete
+
 
 # Storager
 class storager:
@@ -172,8 +177,10 @@ class storager:
             return table_select
 
     def delete_db(self, table_name, condition):
-        if not condition:
-            rows_delete = self.table[table_name].delete()
+        if table_name not in self.table:
+            print(f"Table {table_name} does not exist!")
+        else:
+            rows_delete = self.table[table_name].delete(table_name, condition)
             print(f"{len(rows_delete)} row(s) has been deleted from {table_name}!")
 
 if __name__ == "__main__":
