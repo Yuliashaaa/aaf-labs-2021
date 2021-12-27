@@ -183,12 +183,17 @@ def parse(self, words):
         elif command[2].upper() not in Parser.COMMANDS and command[2].upper() not in Parser.SPECIAL_WORDS:
             table_name = command[2]
             i += 1
+        print(f"table_name -- {table_name}")
+        print(f"len(command) -- {len(command)}")
+        print(f"i -- {i}")
         while i < len(command):
             if command[i].upper() == 'WHERE':
                 where_pos = i
+            i += 1
         if where_pos != 0:
             for i in range(where_pos + 1, len(command)):
                 condition.append(command[i])
+        print(f"condition -- {condition}")
         command_exec = storage.delete_db(table_name, condition)
         
     return command_exec
