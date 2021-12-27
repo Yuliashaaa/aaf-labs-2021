@@ -72,6 +72,50 @@ class db:
                         row_select.append(row[val])
                     table_data.append(row_select)
 
+        elif not order:
+            # Select * from table
+            if columns == list('*'):
+                table_data.append(self.columns)
+                cv1 = condition[0] # Column name
+                cv2 = condition[1] # Operator
+                cv3 = condition[2] # Value
+                val_select = 0
+                row_select = []
+                for key, value in self.columns.items():
+                    if key == cv1:
+                        val_select = value
+                for i in range(0, self.row_id):
+                    row = self.table[i]
+                    if eval(f"{row[val_select]}{cv2}{cv3}"):
+                        row_select.append(i)
+                for i in row_select:
+                    table_data.append(self.table[i])
+             # Select columns from table
+            else:
+                table_data.append(columns)
+                cv1 = condition[0] # Column name
+                cv2 = condition[1] # Operator
+                cv3 = condition[2] # Value
+                val_select = []
+                row_select = []
+                comp_val_select = 0
+                print(f"self.col    {self.columns}")
+                for key, value in self.columns.items():
+                    if key in columns:
+                        if key == cv1:
+                            comp_val_select = value
+                        val_select.append(value)
+                for i in range(0, self.row_id):
+                    row = self.table[i]
+                    if eval(f"{row[comp_val_select]}{cv2}{cv3}"):
+                        row_select.append(i)
+                for i in row_select:
+                    row = self.table[i]
+                    row_select_t = []
+                    for val in val_select:
+                        row_select_t.append(row[val])
+                    table_data.append(row_select_t)
+
         table = GithubFlavoredMarkdownTable(table_data)
         print(table.table)
 
