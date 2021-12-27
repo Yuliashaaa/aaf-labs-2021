@@ -49,13 +49,29 @@ class db:
 
     # Select from database table
     def select(self, columns, condition, order):
-        # Basic selection
+        # Basic selection without condition
         table_data = []
         if not condition and not order:
+            # Select * from table
             if columns == list('*'):
                 table_data.append(self.columns)
                 for i in range (0, self.row_id):
                     table_data.append(self.table[i])
+            # Select columns from table
+            else:
+                table_data.append(columns)
+                val_select = []
+                print(f"self.col    {self.columns}")
+                for key, value in self.columns.items():
+                    if key in columns:
+                        val_select.append(value)
+                for i in range(0, self.row_id):
+                    row = self.table[i]
+                    row_select = []
+                    for val in val_select:
+                        row_select.append(row[val])
+                    table_data.append(row_select)
+
         table = GithubFlavoredMarkdownTable(table_data)
         print(table.table)
 
