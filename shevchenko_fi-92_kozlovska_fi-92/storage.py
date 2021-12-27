@@ -120,12 +120,35 @@ class db:
         print(table.table)
 
     def delete(self, table_name, condition):
+        print(f"condition -- {condition}")
         if not condition:
             rows_delete = []
             for i in range (0, self.row_id):
                     rows_delete.append(self.table.pop(i))
+        else:
+            cv1 = condition[0] # Column name
+            cv2 = condition[1] # Operator
+            cv3 = condition[2] # Value
+            row_delete = []
+            rows_delete = []
+            comp_val_delete = 0
+            print(f"cv1 -- {cv1}, cv2 -- {cv2}, cv3 -- {cv3}")
+            for key, value in self.columns.items():
+                if key == cv1:
+                    comp_val_delete = value
+            print(f"comp_val_del -- {comp_val_delete}")
+            for i in range(0, self.row_id):
+                row = self.table[i]
+                if eval(f"{row[comp_val_delete]}{cv2}{cv3}"):
+                    row_delete.append(i)
+            print(f"row_delete -- {row_delete}")
+            for i in row_delete:
+                rows_delete.append(self.table.pop(i))
+            print(f"rows_delete -- {rows_delete}")
+
         self.row_id -= len(rows_delete)
         return rows_delete
+        
 
 
 # Storager
