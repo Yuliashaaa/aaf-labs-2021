@@ -10,8 +10,8 @@ storage = db.storager()
 # Exit function -- DONE!
 # Create function -- DONE!
 # Insert function -- DONE!
-# Select function -- edit select in storager with conditions
-# Delete finction -- create delete function in storage
+# Select function -- edit select in storager with order
+# Delete finction -- edit select in storager with condition
 
 # Function to parse words into commands and find command type if it is possible
 def parse(self, words):
